@@ -70,7 +70,10 @@ export default function Chat({ studentName }) {
         setMessages(prev => [...prev, { role: 'assistant', content: data.reply }]);
       }
     } catch (e) {
-      setError('Connection error — please check the server is running.');
+      console.error('Chat error:', e);
+      setError(e.message?.includes('Server error') 
+        ? `Server Error (${e.message}): Please check your OpenAI API Key in Railway variables.` 
+        : 'Network Error: Please check your internet connection or if the server is still starting up.');
     } finally {
       setLoading(false);
       inputRef.current?.focus();
