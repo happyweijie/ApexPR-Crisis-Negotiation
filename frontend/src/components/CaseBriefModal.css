@@ -1,0 +1,92 @@
+.modal-overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(45, 45, 45, 0.4);
+  backdrop-filter: blur(6px);
+  -webkit-backdrop-filter: blur(6px);
+  z-index: 100;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 20px;
+}
+
+.modal-panel {
+  width: 100%;
+  max-width: 620px;
+  max-height: 85vh;
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+}
+
+.modal-header {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  padding: 24px 28px 20px;
+  border-bottom: 1px solid var(--blush-mid);
+  flex-shrink: 0;
+}
+.modal-label {
+  font-size: 0.72rem;
+  font-weight: 700;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--rose-gold);
+  margin-bottom: 4px;
+}
+.modal-title { font-size: 1.3rem; margin: 0; }
+.modal-close { font-size: 1rem; padding: 6px 10px; border-radius: 8px; }
+
+.modal-body {
+  overflow-y: auto;
+  padding: 20px 28px;
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.brief-section {
+  background: var(--blush);
+  border-radius: var(--radius-md);
+  padding: 16px 18px;
+  border: 1px solid var(--blush-mid);
+}
+.brief-section-title {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 0.88rem;
+  font-weight: 600;
+  color: var(--rose-gold-dark);
+  margin-bottom: 12px;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+}
+.brief-icon { font-size: 1rem; }
+
+.brief-items { display: flex; flex-direction: column; gap: 8px; }
+.brief-item { display: flex; gap: 8px; font-size: 0.85rem; line-height: 1.5; }
+.brief-key { font-weight: 600; color: var(--charcoal); flex-shrink: 0; }
+.brief-value { color: var(--charcoal-mid); }
+
+.brief-goal-box {
+  background: linear-gradient(135deg, rgba(183,110,121,0.1), rgba(139,78,88,0.06));
+  border: 1px solid rgba(183,110,121,0.25);
+  border-radius: var(--radius-md);
+  padding: 16px 18px;
+  font-size: 0.88rem;
+  color: var(--charcoal-mid);
+  line-height: 1.6;
+}
+.brief-goal-box strong { color: var(--rose-gold-dark); }
+
+.modal-footer {
+  padding: 16px 28px 20px;
+  border-top: 1px solid var(--blush-mid);
+  display: flex;
+  justify-content: flex-end;
+  flex-shrink: 0;
+}
