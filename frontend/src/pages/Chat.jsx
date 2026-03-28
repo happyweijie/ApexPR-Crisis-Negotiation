@@ -4,7 +4,8 @@ import CaseBriefModal from '../components/CaseBriefModal';
 import Certificate from '../components/Certificate';
 import './Chat.css';
 
-const API_BASE = import.meta.env.VITE_API_URL || 'http://localhost:3001';
+// Use relative paths in production to ensure seamless communication on any domain (like Railway)
+const API_BASE = import.meta.env.VITE_API_URL || (import.meta.env.PROD ? '' : 'http://localhost:3001');
 const MAX_MESSAGES = 18; // Trigger evaluation at this count
 
 // Parse the structured evaluation from AI response
