@@ -27,7 +27,8 @@ COPY --from=frontend-build /app/frontend/dist ./frontend/dist
 
 WORKDIR /app/backend
 
-EXPOSE 3001
+# Railway handles port exposure dynamically; no need for fixed EXPOSE 3001
 ENV NODE_ENV=production
 
-CMD ["node", "server.js"]
+# Use the full path for the start command to ensure it runs from any context
+CMD ["node", "/app/backend/server.js"]
