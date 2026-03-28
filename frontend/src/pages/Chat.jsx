@@ -52,8 +52,11 @@ export default function Chat({ studentName }) {
   async function sendToAI(history) {
     setLoading(true);
     setError('');
+    const endpoint = '/api/chat';
+    const url = API_BASE ? `${API_BASE.replace(/\/$/, '')}${endpoint}` : endpoint;
+    
     try {
-      const res = await fetch(`${API_BASE}/api/chat`, {
+      const res = await fetch(url, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ messages: history }),
