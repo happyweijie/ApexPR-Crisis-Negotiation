@@ -1,0 +1,111 @@
+/* ============================================
+   AriaProfile — Hover Card Only
+   ============================================ */
+
+.aria-profile-trigger {
+  position: relative;
+  cursor: default;
+  border-radius: var(--radius-sm);
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+.aria-profile-trigger:hover .aria-name {
+  color: var(--rose-gold);
+  transition: var(--transition);
+}
+
+/* ---- Hover Quick-Profile Card ---- */
+.aria-hover-card {
+  position: absolute;
+  top: calc(100% + 12px);
+  left: 0;
+  width: 280px;
+  padding: 16px;
+  z-index: 200;
+
+  /* Fully opaque — no transparency */
+  background: #ffffff;
+  border: 1px solid rgba(183, 110, 121, 0.2);
+  border-radius: var(--radius-md);
+  box-shadow: 0 12px 40px rgba(139, 78, 88, 0.2);
+
+  pointer-events: none; /* card itself doesn't steal hover */
+}
+
+/* Arrow pointer */
+.aria-hover-card::before {
+  content: '';
+  position: absolute;
+  top: -7px;
+  left: 20px;
+  width: 14px;
+  height: 14px;
+  background: #ffffff;
+  border-left: 1px solid rgba(183, 110, 121, 0.2);
+  border-top: 1px solid rgba(183, 110, 121, 0.2);
+  transform: rotate(45deg);
+}
+
+.hover-card-top {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin-bottom: 12px;
+}
+
+.hover-card-avatar {
+  width: 56px;
+  height: 56px;
+  border-radius: 50%;
+  object-fit: cover;
+  border: 2px solid var(--rose-gold);
+  flex-shrink: 0;
+}
+
+.hover-card-stats {
+  display: flex;
+  gap: 12px;
+  flex: 1;
+}
+
+.stat-block {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.stat-num {
+  font-weight: 700;
+  font-size: 0.95rem;
+  color: var(--charcoal);
+  line-height: 1.2;
+}
+
+.stat-label {
+  font-size: 0.65rem;
+  color: var(--charcoal-light);
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+}
+
+.hover-card-bio {
+  font-size: 0.82rem;
+  line-height: 1.5;
+  border-top: 1px solid var(--blush-mid);
+  padding-top: 10px;
+}
+
+.hover-card-bio strong {
+  display: block;
+  color: var(--charcoal);
+  font-size: 0.88rem;
+  margin-bottom: 4px;
+}
+
+.hover-card-bio p {
+  color: var(--charcoal-mid);
+  font-size: 0.8rem;
+  line-height: 1.6;
+}

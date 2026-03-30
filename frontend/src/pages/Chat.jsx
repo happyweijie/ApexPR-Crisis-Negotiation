@@ -2,6 +2,7 @@ import { useState, useRef, useEffect } from 'react';
 import ReactMarkdown from 'react-markdown';
 import CaseBriefModal from '../components/CaseBriefModal';
 import Certificate from '../components/Certificate';
+import AriaProfile from '../components/AriaProfile';
 import './Chat.css';
 
 // Use relative paths in production to ensure seamless communication on any domain (like Railway)
@@ -144,13 +145,7 @@ export default function Chat({ studentName }) {
             <img src="/aria_avatar.png" alt="Aria Lim" />
             <div className="online-dot" />
           </div>
-          <div className="aria-info">
-            <div className="aria-name-row">
-              <span className="aria-name">Aria Lim</span>
-              <span className="verified-badge">✓ Verified</span>
-            </div>
-            <span className="aria-handle">@arialim · Lifestyle Influencer</span>
-          </div>
+          <AriaProfile />
         </div>
 
         <div className="chat-header-right">
