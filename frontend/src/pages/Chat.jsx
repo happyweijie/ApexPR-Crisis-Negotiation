@@ -118,6 +118,19 @@ export default function Chat({ studentName }) {
     await sendToAI(historyToSend.filter(m => m.role !== 'system' || m.content.includes('NEGOTIATION_CONCLUDED')));
   }
 
+  async function handleManualConclude() {
+    if (loading || concluded || messages.length === 0) return;
+    
+    if (window.confirm("Are you sure you want to end the negotiation? This will generate your final evaluation based on the current progress.")) {
+      const finalMsg = {
+        role: 'system',
+        content: 'The user has manually ended the negotiation. You MUST now provide the full structured evaluation, starting with ---NEGOTIATION_CONCLUDED---. Use all the information gathered so far to evaluate the student\'s performance.'
+      };
+      // Send the entire history plus the termination trigger
+      await sendToAI([...messages, finalMsg]);
+    }
+  }
+
   return (
     <div className="chat-root">
       {/* Background blobs */}
@@ -154,6 +167,17 @@ export default function Chat({ studentName }) {
           <button className="btn-ghost" id="view-brief-header-btn" onClick={() => setBriefOpen(true)}>
             📋 Case Brief
           </button>
+          {!concluded && messages.length > 1 && (
+            <button 
+              className="btn-secondary" 
+              id="end-negotiation-btn" 
+              onClick={handleManualConclude}
+              disabled={loading}
+              style={{ padding: '6px 12px', fontSize: '0.8rem', marginLeft: '8px' }}
+            >
+              🏁 End Session
+            </button>
+          )}
         </div>
       </header>
 
