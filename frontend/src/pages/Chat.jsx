@@ -25,6 +25,7 @@ export default function Chat({ studentName }) {
   const [error, setError]             = useState('');
   const messagesEndRef                = useRef(null);
   const inputRef                      = useRef(null);
+  const greetingTriggered             = useRef(false);
 
   // User message count (only count user turns for the trigger)
   const userMessageCount = messages.filter(m => m.role === 'user').length;
@@ -37,7 +38,22 @@ export default function Chat({ studentName }) {
   // Auto-focus input on mount
   useEffect(() => {
     inputRef.current?.focus();
+    // Trigger Aria to start if the conversation is empty
+    if (messages.length === 0 && !greetingTriggered.current) {
+      greetingTriggered.current = true;
+      triggerInitialGreeting();
+    }
   }, []);
+
+  async function triggerInitialGreeting() {
+    // We send a system instruction to the AI to start the dialogue with an emotional intro.
+    // This is NOT saved to the messages state, so it won't appear in the UI or persist in history.
+    const triggerMsg = { 
+      role: 'system', 
+      content: `Aria, start the conversation now. You are calling the Apex PR negotiator (the user, whose name is ${studentName}) for the first time. You are deeply distressed, speaking in a very emotional, flustered, and anxious tone. Mention how you're watching your follower count drop in real-time and how terrified you are that your career is over. You are desperate for their help.`
+    };
+    await sendToAI([triggerMsg]);
+  }
 
   // Auto-expand textarea as user types
   useEffect(() => {
@@ -145,14 +161,18 @@ export default function Chat({ studentName }) {
       <main className="chat-messages" id="chat-messages-container">
         {messages.length === 0 && (
           <div className="chat-empty-state animate-fadeIn">
-            <div className="empty-icon">🤝</div>
-            <h3>Ready to start the session?</h3>
-            <p>Greet Aria Lim to begin the negotiation. As a Senior Account Director at Apex PR, you should set a professional yet empathetic tone.</p>
+            <div className="empty-icon">{loading ? '⌛' : '🤝'}</div>
+            <h3>{loading ? 'Aria is joining the call...' : 'Ready to start the session?'}</h3>
+            <p>
+              {loading 
+                ? 'Aria is connecting. Please wait a moment while she gathers her thoughts.' 
+                : 'Greet Aria Lim to begin the negotiation. As a Senior Account Director at Apex PR, you should set a professional yet empathetic tone.'}
+            </p>
           </div>
         )}
 
         {messages
-          .filter(m => !m.isEval) // evaluation shown separately
+          .filter(m => !m.isEval && m.role !== 'system') // evaluation and hidden system prompts shown separately or ignored
           .map((msg, i) => (
             <div
               key={i}
