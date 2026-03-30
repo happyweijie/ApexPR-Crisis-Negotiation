@@ -13,7 +13,7 @@ const BRIEF_SECTIONS = [
     icon: '⚡',
     title: 'The Scenario',
     content: [
-      { label: 'Client', value: 'Aria Lim — lifestyle influencer, 1.8M followers' },
+      { label: 'Client', value: 'Aria Lim — lifestyle influencer, 500k followers' },
       { label: 'Stakes', value: '$250,000 six-month skincare ambassadorship' },
       { label: 'Crisis', value: 'Screenshots surfaced suggesting a relationship with a married public figure. Trending on social media.' },
       { label: 'Pressure', value: 'Skincare brand expects a crisis strategy in 48 hours.' },
@@ -58,6 +58,24 @@ const BRIEF_SECTIONS = [
       { label: 'Disclosure', value: 'Level and timing of information sharing.' },
       { label: 'Strategy', value: 'Denial, holding statement, or phased response.' },
       { label: 'Control', value: 'Approval process for all public-facing messaging.' },
+    ],
+  },
+  {
+    icon: '💼',
+    title: 'Financial Benchmarks',
+    content: [
+      { label: 'Market Standard', value: 'Professional crisis management for an influencer of Aria\'s tier typically starts at a $15,000 retainer.' },
+      { label: 'Agency Goal', value: 'Apex PR aims for a \'Win-Win\' structure. You have the authority to trade a lower base fee for a higher Performance Bonus — e.g., tied to saving the $250k skincare contract.' },
+      { label: 'Floor', value: 'Your agency rarely takes on high-risk cases for less than $12,000 upfront without significant performance-linked upside.' },
+    ],
+  },
+  {
+    icon: '🛠️',
+    title: 'Strategic Capabilities',
+    content: [
+      { label: 'The Shield', value: 'A 24/7 media monitoring team to track sentiment and suppress emerging tabloid stories before they trend.' },
+      { label: 'The Pivot', value: 'A staged recovery plan — moving from a neutral holding statement to a full rebranding campaign once the heat dies down.' },
+      { label: 'The Vault', value: 'Secure, NDA-protected information gathering to verify whether the screenshots were faked or selectively edited.' },
     ],
   },
 ];
