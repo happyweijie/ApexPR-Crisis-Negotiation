@@ -27,10 +27,17 @@ function parseConflictMode(text) {
   return m ? m[1].trim() : '—';
 }
 
+function parsePartScore(text, partName) {
+  const re = new RegExp(`\\*\\*${partName} Score:\\*\\*\\s*\\[?(\\d+)/\\d+`, 'i');
+  const m = text.match(re);
+  return m ? m[1].trim() : '—';
+}
+
 function parseSevenElements(text) {
   const section = parseSection(text, 'Score Summary');
   const elements = ['Interests', 'BATNA', 'Options', 'Legitimacy', 'Communication', 'Relationship', 'Commitment'];
   return elements.map(el => {
+    // Look for "- Element: [score + reason]" or "- Element: score + reason"
     const re = new RegExp(`- ${el}:\\s*\\[?([^\\]\\n]+)\\]?`, 'i');
     const m = section.match(re);
     return { name: el, value: m ? m[1].trim() : '—' };
@@ -46,6 +53,9 @@ export default function Certificate({ studentName, evaluation, onClose }) {
 
   const score             = parseScore(evaluation);
   const conflictMode      = parseConflictMode(evaluation);
+  const partBScore        = parsePartScore(evaluation, 'Part B');
+  const partCScore        = parsePartScore(evaluation, 'Part C');
+  const partDScore        = parsePartScore(evaluation, 'Part D');
   const sevenElements     = parseSevenElements(evaluation);
   const agreementSection  = parseSection(evaluation, 'Crisis Action Agreement');
   const analysisSection   = parseSection(evaluation, 'Negotiation Analysis');
@@ -197,9 +207,19 @@ export default function Certificate({ studentName, evaluation, onClose }) {
               {/* Score Summary */}
               <div className="cert-section">
                 <div className="cert-section-title">📊 Score Summary</div>
-                <div className="cert-conflict-mode">
-                  <span className="cert-cm-label">Thomas-Kilmann Conflict Mode:</span>
-                  <span className="cert-cm-value">{conflictMode}</span>
+                <div className="cert-scores-summary-grid">
+                  <div className="cert-score-item">
+                    <span className="cert-score-label">Deal Outcome:</span>
+                    <span className="cert-score-value">{partBScore}/15</span>
+                  </div>
+                  <div className="cert-score-item">
+                    <span className="cert-score-label">Ethical Compliance:</span>
+                    <span className="cert-score-value">{partCScore}/10</span>
+                  </div>
+                  <div className="cert-score-item">
+                    <span className="cert-score-label">Conflict Mode:</span>
+                    <span className="cert-score-value">{conflictMode} ({partDScore}/5)</span>
+                  </div>
                 </div>
                 <div className="cert-seven-elements">
                   <div className="cert-seven-title">7 Elements of Effective Negotiation</div>
