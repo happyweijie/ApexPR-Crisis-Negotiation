@@ -7,7 +7,7 @@ import './Chat.css';
 
 // Use relative paths in production to ensure seamless communication on any domain (like Railway)
 const API_BASE = import.meta.env.VITE_API_URL || (import.meta.env.PROD ? '' : 'http://localhost:3001');
-const MAX_MESSAGES = 18; // Trigger evaluation at this count
+const MAX_MESSAGES = 25; // Trigger evaluation at this count
 
 // Parse the structured evaluation from AI response
 function parseEvaluation(text) {
