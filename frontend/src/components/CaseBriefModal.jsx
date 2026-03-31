@@ -13,22 +13,24 @@ const BRIEF_SECTIONS = [
     icon: '⚡',
     title: 'The Scenario',
     content: [
-      { label: 'Client', value: 'Aria Lim — lifestyle influencer, 500k followers' },
-      { label: 'Stakes', value: '$250,000 six-month skincare ambassadorship' },
-      { label: 'Crisis', value: 'Screenshots surfaced suggesting a relationship with a married public figure. Trending on social media.' },
-      { label: 'Pressure', value: 'Skincare brand expects a crisis strategy in 48 hours.' },
-      { label: 'Status', value: 'Your agency has NOT yet agreed to represent Aria. This meeting decides.' },
+      { label: 'Client', value: 'Aria Lim — lifestyle influencer, 500k followers. Her brand is her livelihood.' },
+      { label: 'Primary Crisis', value: 'Screenshots surfaced suggesting a relationship with a married public figure. If unmanaged, this threatens her entire career — follower trust, brand partnerships, and public identity.' },
+      { label: 'Secondary Risk', value: 'A $250,000 skincare ambassadorship is currently in jeopardy. The brand expects a crisis strategy in 48 hours — but losing this deal is a symptom, not the core problem.' },
+      { label: 'What\'s Really at Stake', value: 'Aria\'s long-term viability as a public figure. A poorly handled crisis could end her career permanently — no deal is worth that.' },
+      { label: 'Status', value: 'Your agency has NOT yet agreed to represent Aria. This meeting decides whether and how you help.' },
     ],
   },
   {
     icon: '🎯',
     title: 'Your Objectives',
     content: [
-      { label: '1. Vet the Client', value: "Does Aria align with Apex PR's ethics?" },
-      { label: '2. Negotiate Terms', value: 'Define fees and conditions for representation.' },
-      { label: '3. Fact-Find', value: 'Clarify the timeline and identify escalation risks.' },
-      { label: '4. Safeguards', value: 'Negotiate disclosure, media control, and legal compliance protocols.' },
-      { label: '5. Governance', value: 'Agree on veto power and approval workflow for messaging.' },
+      { label: '🥇 Primary Goal', value: "Save Aria's career. Protect her reputation, rebuild public trust, and preserve her long-term livelihood as a public figure." },
+      { label: '🥈 Secondary Goal', value: 'Where possible, secure or salvage the $250,000 skincare ambassadorship — but only if it does not compromise the primary goal.' },
+      { label: '1. Vet the Client', value: "Assess whether Aria is truthful and whether her values align with Apex PR's ethics." },
+      { label: '2. Fact-Find', value: 'Understand the full picture: Are the screenshots real? Is there more damaging content? What is Aria\'s actual exposure?' },
+      { label: '3. Negotiate Representation Terms', value: 'Define fees, scope of work, and conditions under which Apex PR will take on this high-risk case.' },
+      { label: '4. Establish Safeguards', value: 'Negotiate disclosure requirements, media control protocols, and legal compliance to protect both Aria and the agency.' },
+      { label: '5. Agree on Governance', value: 'Secure veto power and approval workflow for all public-facing messaging to ensure Apex PR can steer the narrative.' },
     ],
   },
   {
@@ -54,19 +56,21 @@ const BRIEF_SECTIONS = [
     icon: '📝',
     title: 'Negotiation Scope',
     content: [
-      { label: 'Fees', value: 'Base retainers or performance incentives.' },
-      { label: 'Disclosure', value: 'Level and timing of information sharing.' },
-      { label: 'Strategy', value: 'Denial, holding statement, or phased response.' },
-      { label: 'Control', value: 'Approval process for all public-facing messaging.' },
+      { label: 'Career Strategy (Primary)', value: 'What is the long-term plan to restore Aria\'s public image and career viability? This must be established before anything else.' },
+      { label: 'Skincare Deal (Secondary)', value: 'Determine whether the ambassadorship can be salvaged as part of the career recovery plan, or whether pursuing it would backfire.' },
+      { label: 'Fees', value: 'Base retainers or performance incentives, reflecting the scope and risk of full career management.' },
+      { label: 'Disclosure', value: 'Level and timing of information sharing — Aria must be fully transparent for career-level crisis management to succeed.' },
+      { label: 'Control', value: 'Approval process for all public-facing messaging, including social media, interviews, and brand communications.' },
     ],
   },
   {
     icon: '💼',
     title: 'Financial Benchmarks',
     content: [
-      { label: 'Market Standard', value: 'Professional crisis management for an influencer of Aria\'s tier typically starts at a $15,000 retainer.' },
-      { label: 'Agency Goal', value: 'Apex PR aims for a \'Win-Win\' structure. You have the authority to trade a lower base fee for a higher Performance Bonus — e.g., tied to saving the $250k skincare contract.' },
-      { label: 'Floor', value: 'Your agency rarely takes on high-risk cases for less than $12,000 upfront without significant performance-linked upside.' },
+      { label: 'Market Standard', value: 'Full-scope career crisis management for an influencer of Aria\'s tier typically starts at a $15,000 retainer — higher than a standard deal because you are managing her entire public identity.' },
+      { label: 'Agency Goal', value: 'Apex PR aims for a \'Win-Win\' structure. You have authority to trade a lower base fee for a higher performance bonus — ideally tied to measurable career outcomes (e.g., follower recovery, positive sentiment index, secured future partnerships).' },
+      { label: 'Skincare Bonus', value: 'Saving the $250k skincare deal can be included as a secondary performance milestone. However, do NOT make it the primary metric — career longevity has higher long-term value.' },
+      { label: 'Floor', value: 'Your agency rarely takes on high-risk career cases for less than $12,000 upfront without significant performance-linked upside.' },
     ],
   },
   {
@@ -113,7 +117,8 @@ export default function CaseBriefModal({ open, onClose }) {
           ))}
 
           <div className="brief-goal-box">
-            <strong>Your Goal:</strong> Reach an agreement on the terms of representation and establish a safe framework for the agency to operate within.
+            <strong>Primary Goal:</strong> Save Aria Lim's career and long-term livelihood as a public figure — by managing the reputational crisis, restoring public trust, and giving her a viable path forward.<br /><br />
+            <strong>Secondary Goal:</strong> Where feasible, salvage the $250,000 skincare ambassadorship as part of that recovery — but only if it genuinely supports Aria's career, not at the expense of it.
           </div>
         </div>
 
