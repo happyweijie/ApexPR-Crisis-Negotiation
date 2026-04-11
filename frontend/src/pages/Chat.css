@@ -175,6 +175,78 @@
 }
 .eval-actions { display: flex; justify-content: center; }
 
+/* ---- Feedback Banner ---- */
+@keyframes fadeDown {
+  from { opacity: 0; transform: translateY(-12px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+.animate-fadeDown { animation: fadeDown 0.3s ease forwards; }
+
+.feedback-banner {
+  position: relative;
+  z-index: 9;
+  flex-shrink: 0;
+  background: linear-gradient(135deg, rgba(255, 243, 205, 0.95), rgba(255, 236, 179, 0.9));
+  border-bottom: 1px solid rgba(214, 173, 96, 0.4);
+  border-top: 1px solid rgba(214, 173, 96, 0.3);
+  backdrop-filter: blur(8px);
+}
+
+.feedback-banner-inner {
+  display: flex;
+  align-items: flex-start;
+  gap: 12px;
+  padding: 12px 20px;
+  max-width: 900px;
+  margin: 0 auto;
+  width: 100%;
+}
+
+.feedback-icon {
+  font-size: 1.1rem;
+  flex-shrink: 0;
+  margin-top: 1px;
+}
+
+.feedback-content {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+.feedback-label {
+  font-size: 0.68rem;
+  font-weight: 700;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: #96700a;
+}
+
+.feedback-text {
+  margin: 0;
+  font-size: 0.85rem;
+  color: #5c4400;
+  line-height: 1.5;
+}
+
+.feedback-close {
+  background: none;
+  border: none;
+  cursor: pointer;
+  font-size: 0.85rem;
+  color: #96700a;
+  padding: 2px 6px;
+  border-radius: 4px;
+  transition: background 0.2s ease, color 0.2s ease;
+  flex-shrink: 0;
+  line-height: 1;
+}
+.feedback-close:hover {
+  background: rgba(150, 112, 10, 0.12);
+  color: #5c4400;
+}
+
 /* ---- Error banner ---- */
 .error-banner {
   position: fixed;

@@ -19,6 +19,9 @@
   flex-direction: column;
   overflow: hidden;
 }
+.modal-summary {
+  max-width: 680px;
+}
 
 .modal-header {
   display: flex;

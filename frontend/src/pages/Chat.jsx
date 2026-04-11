@@ -11,8 +11,33 @@ const MAX_MESSAGES = 25; // Trigger evaluation at this count
 
 // Parse the structured evaluation from AI response
 function parseEvaluation(text) {
-  const clean = text.replace('---NEGOTIATION_CONCLUDED---', '').trim();
-  return clean;
+  const parts = text.split('---NEGOTIATION_CONCLUDED---');
+  if (parts.length > 1) {
+    return parts[1].trim();
+  }
+  return text.replace('---NEGOTIATION_CONCLUDED---', '').trim();
+}
+
+// Extract conversation text that came before the evaluation
+function parseGoodbyeText(text) {
+  const parts = text.split('---NEGOTIATION_CONCLUDED---');
+  if (parts.length > 1) {
+    return parts[0].trim();
+  }
+  return '';
+}
+
+// Extract [Feedback: ...] block from AI reply and return { cleanText, feedback }
+function extractFeedback(text) {
+  // Match [Feedback: ...] — non-greedy, allows multi-sentence
+  const feedbackRegex = /\[Feedback:\s*([\s\S]*?)\]/;
+  const match = text.match(feedbackRegex);
+  if (match) {
+    const feedback = match[1].trim();
+    const cleanText = text.replace(feedbackRegex, '').trim();
+    return { cleanText, feedback };
+  }
+  return { cleanText: text, feedback: null };
 }
 
 export default function Chat({ studentName }) {
@@ -24,9 +49,13 @@ export default function Chat({ studentName }) {
   const [evaluation, setEvaluation]   = useState('');
   const [showCert, setShowCert]       = useState(false);
   const [error, setError]             = useState('');
+  // Feedback banner state: { text, id } — id ensures re-triggering animation on new feedback
+  const [activeFeedback, setActiveFeedback] = useState(null);
+  const [feedbackVisible, setFeedbackVisible] = useState(false);
   const messagesEndRef                = useRef(null);
   const inputRef                      = useRef(null);
   const greetingTriggered             = useRef(false);
+  const feedbackIdRef                 = useRef(0);
 
   // User message count (only count user turns for the trigger)
   const userMessageCount = messages.filter(m => m.role === 'user').length;
@@ -47,8 +76,6 @@ export default function Chat({ studentName }) {
   }, []);
 
   async function triggerInitialGreeting() {
-    // We send a system instruction to the AI to start the dialogue with an emotional intro.
-    // This is NOT saved to the messages state, so it won't appear in the UI or persist in history.
     const triggerMsg = { 
       role: 'system', 
       content: `Aria, start the conversation now. You are calling the Apex PR negotiator (the user, whose name is ${studentName}) for the first time. You are deeply distressed, speaking in a very emotional, flustered, and anxious tone. Mention how you're watching your follower count drop in real-time and how terrified you are that your career is over. You are desperate for their help.`
@@ -59,9 +86,8 @@ export default function Chat({ studentName }) {
   // Auto-expand textarea as user types
   useEffect(() => {
     if (inputRef.current) {
-      inputRef.current.style.height = 'auto'; // Reset height to shrink if text is deleted
+      inputRef.current.style.height = 'auto';
       const scrollHeight = inputRef.current.scrollHeight;
-      // Limit to approx 6 lines (assuming ~24px line height)
       inputRef.current.style.height = Math.min(scrollHeight, 160) + 'px';
     }
   }, [input]);
@@ -82,12 +108,28 @@ export default function Chat({ studentName }) {
       const data = await res.json();
 
       if (data.concluded || userMessageCount >= MAX_MESSAGES) {
-        setEvaluation(parseEvaluation(data.reply));
+        const evalText = parseEvaluation(data.reply);
+        const goodbyeText = parseGoodbyeText(data.reply);
+
+        setEvaluation(evalText);
         setConcluded(true);
-        // Add as a system message so the evaluation shows inline
-        setMessages(prev => [...prev, { role: 'assistant', content: data.reply, isEval: true }]);
+
+        const newMessages = [];
+        if (goodbyeText) {
+          newMessages.push({ role: 'assistant', content: goodbyeText });
+        }
+        newMessages.push({ role: 'assistant', content: evalText, isEval: true });
+
+        setMessages(prev => [...prev, ...newMessages]);
       } else {
-        setMessages(prev => [...prev, { role: 'assistant', content: data.reply }]);
+        // Extract any [Feedback: ...] from the reply
+        const { cleanText, feedback } = extractFeedback(data.reply);
+        setMessages(prev => [...prev, { role: 'assistant', content: cleanText }]);
+        if (feedback) {
+          feedbackIdRef.current += 1;
+          setActiveFeedback({ text: feedback, id: feedbackIdRef.current });
+          setFeedbackVisible(true);
+        }
       }
     } catch (e) {
       console.error('Chat error:', e);
@@ -107,7 +149,6 @@ export default function Chat({ studentName }) {
     setMessages(newHistory);
     setInput('');
 
-    // Check if approaching limit — send flag to force evaluation
     const willTrigger = newHistory.filter(m => m.role === 'user').length >= MAX_MESSAGES;
     const historyToSend = willTrigger
       ? [...newHistory, {
@@ -125,9 +166,8 @@ export default function Chat({ studentName }) {
     if (window.confirm("Are you sure you want to end the negotiation? This will generate your final evaluation based on the current progress.")) {
       const finalMsg = {
         role: 'system',
-        content: 'The user has manually ended the negotiation. You MUST now provide the full structured evaluation, starting with ---NEGOTIATION_CONCLUDED---. Use all the information gathered so far to evaluate the student\'s performance.'
+        content: "The user has manually ended the negotiation. You MUST now provide the full structured evaluation, starting with ---NEGOTIATION_CONCLUDED---. Use all the information gathered so far to evaluate the student's performance."
       };
-      // Send the entire history plus the termination trigger
       await sendToAI([...messages, finalMsg]);
     }
   }
@@ -160,7 +200,7 @@ export default function Chat({ studentName }) {
             />
           </div>
           <button className="btn-ghost" id="view-brief-header-btn" onClick={() => setBriefOpen(true)}>
-            📋 Case Brief
+            📋 Quick Reference
           </button>
           {!concluded && messages.length > 1 && (
             <button 
@@ -175,6 +215,32 @@ export default function Chat({ studentName }) {
           )}
         </div>
       </header>
+
+      {/* Feedback Banner — shown outside the chat flow, closable */}
+      {feedbackVisible && activeFeedback && (
+        <div
+          className="feedback-banner animate-fadeDown"
+          key={activeFeedback.id}
+          id="feedback-banner"
+          role="alert"
+          aria-live="polite"
+        >
+          <div className="feedback-banner-inner">
+            <span className="feedback-icon">💡</span>
+            <div className="feedback-content">
+              <span className="feedback-label">Coaching Tip</span>
+              <p className="feedback-text">{activeFeedback.text}</p>
+            </div>
+            <button
+              className="feedback-close"
+              aria-label="Dismiss feedback"
+              onClick={() => setFeedbackVisible(false)}
+            >
+              ✕
+            </button>
+          </div>
+        </div>
+      )}
 
       {/* Message list */}
       <main className="chat-messages" id="chat-messages-container">
@@ -191,7 +257,7 @@ export default function Chat({ studentName }) {
         )}
 
         {messages
-          .filter(m => !m.isEval && m.role !== 'system') // evaluation and hidden system prompts shown separately or ignored
+          .filter(m => !m.isEval && m.role !== 'system')
           .map((msg, i) => (
             <div
               key={i}
@@ -297,7 +363,7 @@ export default function Chat({ studentName }) {
       )}
 
       {/* Modals */}
-      <CaseBriefModal open={briefOpen} onClose={() => setBriefOpen(false)} />
+      <CaseBriefModal open={briefOpen} onClose={() => setBriefOpen(false)} mode="summary" />
       {showCert && (
         <Certificate
           studentName={studentName}

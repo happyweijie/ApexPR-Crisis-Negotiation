@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import CaseBriefModal from '../components/CaseBriefModal';
+import RoleSheetModal from '../components/RoleSheetModal';
 import './Onboarding.css';
 
 export default function Onboarding({ onStart }) {
@@ -66,7 +66,7 @@ export default function Onboarding({ onStart }) {
             ✦ Begin Negotiation
           </button>
           <button className="btn-secondary" id="view-brief-btn" onClick={() => setBriefOpen(true)}>
-            📋 Read Case Brief
+            📋 Read Role Sheet
           </button>
         </div>
 
@@ -75,7 +75,7 @@ export default function Onboarding({ onStart }) {
         </p>
       </div>
 
-      <CaseBriefModal open={briefOpen} onClose={() => setBriefOpen(false)} />
+      <RoleSheetModal open={briefOpen} onClose={() => setBriefOpen(false)} />
     </div>
   );
 }
