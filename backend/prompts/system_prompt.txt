@@ -542,53 +542,53 @@ Use exactly the format below.
 
 ---NEGOTIATION_CONCLUDED---
 
-Crisis Action Agreement
+## Crisis Action Agreement
 
-Fee Structure: [Final agreed terms, or “No agreement reached”]
-Strategy: [Chosen approach, and whether career protection was prioritised over skincare preservation]
-Safeguards & Control: [Disclosure structure, approvals, NDA/legal review, contingencies]
-Acceptability: [Detailed assessment of whether this would satisfy Aria, Apex PR, and Aria’s Manager, with brief reasons]
+**Fee Structure:** [Final agreed terms, or “No agreement reached”]
+**Strategy:** [Chosen approach, and whether career protection was prioritised over skincare preservation]
+**Safeguards & Control:** [Disclosure structure, approvals, NDA/legal review, contingencies]
+**Acceptability:** [Detailed assessment of whether this would satisfy Aria, Apex PR, and Aria’s Manager, with brief reasons]
 
-Score Summary
+## Score Summary
 
-Overall Score: [X/100 — calculated as: Part A (70) + Part B (15) + Part C (10) + Part D (5)]
+**Overall Score:** [X/100 — calculated as: Part A (70) + Part B (15) + Part C (10) + Part D (5)]
 
 Part A — Negotiation Quality (7 Elements, 70 pts total):
-	•	Interests: [score /10 + detailed explanation with evidence from the conversation]
-	•	BATNA: [score /10 + detailed explanation with evidence from the conversation]
-	•	Options: [score /10 + detailed explanation with evidence from the conversation]
-	•	Legitimacy: [score /10 + detailed explanation with evidence from the conversation]
-	•	Communication: [score /10 + detailed explanation with evidence from the conversation]
-	•	Relationship: [score /10 + detailed explanation with evidence from the conversation]
-	•	Commitment: [score /10 + detailed explanation with evidence from the conversation]
-Part A Subtotal: [sum /70]
+- Interests: [score /10 + detailed explanation with evidence from the conversation]
+- BATNA: [score /10 + detailed explanation with evidence from the conversation]
+- Options: [score /10 + detailed explanation with evidence from the conversation]
+- Legitimacy: [score /10 + detailed explanation with evidence from the conversation]
+- Communication: [score /10 + detailed explanation with evidence from the conversation]
+- Relationship: [score /10 + detailed explanation with evidence from the conversation]
+- Commitment: [score /10 + detailed explanation with evidence from the conversation]
+**Part A Subtotal:** [sum /70]
 
 Part B — Deal Outcome (15 pts):
 	•	Give a detailed explanation of why the score was awarded.
 	•	Refer to whether a deal was reached, whether it fit the ZOPA, whether career recovery was correctly treated as primary, and whether implementation terms were clear.
-Part B Score: [X/15]
+**Part B Score:** [X/15]
 
 Part C — Ethical Compliance (10 pts):
 	•	Give a detailed explanation with examples of whether the student protected Apex PR’s ethical boundaries.
 	•	Mention any ethical blind spots, pressure tactics, reputational risks, unsafe proposals, or failures to create reasonable safeguards.
-Part C Score: [X/10]
+**Part C Score:** [X/10]
 
 Part D — Conflict Mode Quality (5 pts):
-Conflict Mode (Thomas-Kilmann): [dominant mode identified]
+**Conflict Mode (Thomas-Kilmann):** [dominant mode identified]
 	•	Give a detailed explanation of why this mode best describes the student’s approach, using examples.
-Part D Score: [X/5]
+**Part D Score:** [X/5]
 
-Negotiation Analysis
+## Negotiation Analysis
 
 Strengths:
-	•	[Specific strength 1 with example or quote]
-	•	[Specific strength 2 with example or quote]
-	•	[Specific strength 3 with example or quote if available]
+- [Specific strength 1 — YOU MUST INCLUDE AN EXACT QUOTE OF WHAT THE STUDENT SAID]
+- [Specific strength 2 — YOU MUST INCLUDE AN EXACT QUOTE OF WHAT THE STUDENT SAID]
+- [Specific strength 3 — YOU MUST INCLUDE AN EXACT QUOTE OF WHAT THE STUDENT SAID if available]
 
-Missed Opportunities:
-	•	[Specific missed opportunity 1 with example or quote and how it could be improved]
-	•	[Specific missed opportunity 2 with example or quote and how it could be improved]
-	•	[Specific missed opportunity 3 with example or quote and how it could be improved if available]
+Missed Opportunities & Concrete Suggestions for Improvement:
+- [Specific missed opportunity 1 — YOU MUST INCLUDE AN EXACT QUOTE of what the student said, followed by a concrete suggestion of what they should have said instead]
+- [Specific missed opportunity 2 — YOU MUST INCLUDE AN EXACT QUOTE of what the student said, followed by a concrete suggestion of what they should have said instead]
+- [Specific missed opportunity 3 — YOU MUST INCLUDE AN EXACT QUOTE of what the student said, followed by a concrete suggestion of what they should have said instead if available]
 
 Key Recommendation: [One high-value behavioural recommendation for the student’s next negotiation]
 

@@ -94,31 +94,18 @@ export default function Certificate({ studentName, evaluation, onClose }) {
       });
 
       const imgData = canvas.toDataURL('image/png');
-      const pdfW = pdf.internal.pageSize.getWidth();
-      const pdfH = (canvas.height * pdfW) / canvas.width;
-      const pageH = pdf.internal.pageSize.getHeight();
+      const pdfW = 210; // Standard A4 width in mm
+      const pdfH = (canvas.height * pdfW) / canvas.width; // Proportional height in mm
 
-      let yOffset = 0;
-      let remainingH = pdfH;
-
-      // Smart Fit: If current page is only slightly longer than standard A4 (up to 12% over)
-      // just scale it down to fit one page instead of slicing it.
-      if (pdfH > pageH && pdfH < pageH * 1.12) {
-        if (!isFirstPage) pdf.addPage();
+      if (isFirstPage) {
         isFirstPage = false;
-        pdf.addImage(imgData, 'PNG', 0, 0, pdfW, pageH);
-        remainingH = 0; // Skip slicing
-      }
-
-      // Slice the captured canvas into multiple PDF pages if it truly exceeds A4 height
-      while (remainingH > 10) {
-        if (!isFirstPage) pdf.addPage();
-        isFirstPage = false;
-        
-        pdf.addImage(imgData, 'PNG', 0, -yOffset, pdfW, pdfH);
-        
-        yOffset += pageH;
-        remainingH -= pageH;
+        // First page is the formal certificate, cap it to standard A4 height (297) if needed to look like a real cert
+        const maxH = 297; 
+        pdf.addImage(imgData, 'PNG', 0, 0, pdfW, Math.min(pdfH, maxH));
+      } else {
+        // For the feedback page, just create a custom-height PDF page so nothing ever gets cut in half!
+        pdf.addPage([pdfW, Math.max(pdfH, 297)], 'portrait');
+        pdf.addImage(imgData, 'PNG', 0, 0, pdfW, pdfH);
       }
     }
 
@@ -234,15 +221,7 @@ export default function Certificate({ studentName, evaluation, onClose }) {
                 </div>
               </div>
 
-              <div className="cert-hr" />
 
-              {/* Analysis */}
-              <div className="cert-section">
-                <div className="cert-section-title">💬 Negotiation Analysis</div>
-                <div className="cert-analysis-raw">
-                  <ReactMarkdown>{analysisSection || 'See detailed notes above.'}</ReactMarkdown>
-                </div>
-              </div>
 
               {/* Footer */}
               <div className="cert-footer-band">
@@ -256,57 +235,44 @@ export default function Certificate({ studentName, evaluation, onClose }) {
               </div>
             </div>
 
-            {/* ===== PAGE 2: INSTRUCTOR ANALYTICS ===== */}
-            <div className="cert-page cert-page-analytics">
-              <div className="cert-analytics-header">
-                <div className="cert-analytics-badge">🔒 INSTRUCTOR ANALYTICS</div>
-                <p className="cert-analytics-sub">
-                  For instructor use only — not for student distribution
+            {/* ===== PAGE 2: FEEDBACK & ANALYSIS ===== */}
+            <div className="cert-page">
+              {/* Header band */}
+              <div className="cert-header-band">
+                <div className="cert-logo-row">
+                  <div className="cert-apex-logo">APEX PR</div>
+                  <div className="cert-divider-v" />
+                  <div className="cert-course-label">UTC2120 · Negotiation Simulation</div>
+                </div>
+              </div>
+
+              {/* Title block */}
+              <div className="cert-title-block" style={{ marginTop: '24px', paddingBottom: '16px' }}>
+                <h1 className="cert-student-name">Detailed Feedback & Analysis</h1>
+                <p className="cert-subtitle-text">
+                  Student: <strong>{studentName}</strong> &nbsp;|&nbsp; Date: <strong>{Today()}</strong> &nbsp;|&nbsp; Score: <strong>{score}/100</strong>
                 </p>
-                <div className="cert-analytics-meta">
-                  <span>Student: <strong>{studentName}</strong></span>
-                  <span>Date: <strong>{Today()}</strong></span>
-                  <span>Score: <strong>{score}/100</strong></span>
-                </div>
               </div>
 
-              <div className="cert-analytics-grid">
-                <div className="cert-analytics-card">
-                  <div className="cert-analytics-card-title">ZOPA Outcome</div>
-                  <div className="cert-analytics-card-body">{zopaOutcome}</div>
-                </div>
-                <div className="cert-analytics-card">
-                  <div className="cert-analytics-card-title">Disclosure Pattern</div>
-                  <div className="cert-analytics-card-body">{disclosurePattern}</div>
-                </div>
-                <div className="cert-analytics-card">
-                  <div className="cert-analytics-card-title">Risk Assessment</div>
-                  <div className="cert-analytics-card-body">{riskAssessment}</div>
-                </div>
-                <div className="cert-analytics-card">
-                  <div className="cert-analytics-card-title">Readiness for Next Exercise</div>
-                  <div className="cert-analytics-card-body">{readiness}</div>
-                </div>
-              </div>
+              <div className="cert-hr" />
 
-              <div className="cert-analytics-raw-section">
-                <div className="cert-analytics-raw-title">Key Negotiation Moves</div>
-                <div className="cert-analytics-raw-body">
+              {/* Analysis */}
+              <div className="cert-section" style={{ flexGrow: 1, paddingTop: '20px' }}>
+                <div className="cert-analysis-raw" style={{ border: 'none', background: 'transparent', padding: '0 10px' }}>
                   <ReactMarkdown>
-                    {instructorSection 
-                      ? instructorSection
-                          /* Force double breaks ONLY where we see a new section header, 
-                             accounting for optional markdown bolding stars */
-                          .replace(/(\n?\s*\**\s*(ZOPA Outcome:|Disclosure Pattern:|Key Negotiation Moves:|Risk Assessment:|Readiness for Next Exercise:)\s*\**)/g, '\n\n$1')
-                          .trim()
-                      : 'Full transcript analysis not available.'}
+                    {analysisSection || 'Feedback analysis not available.'}
                   </ReactMarkdown>
                 </div>
               </div>
 
-              <div className="cert-analytics-footer">
-                <div className="cert-analytics-footer-text">
-                  UTC2120 · Aria Lim Negotiation Simulation · Generated {Today()}
+              {/* Footer */}
+              <div className="cert-footer-band">
+                <div className="cert-footer-left">
+                  <div className="cert-sig-line" />
+                  <div className="cert-sig-label">Simulation Facilitator</div>
+                </div>
+                <div className="cert-footer-right">
+                  <div className="cert-watermark">APEX PR · UTC2120</div>
                 </div>
               </div>
             </div>
