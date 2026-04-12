@@ -7,7 +7,7 @@ import './Chat.css';
 
 // Use relative paths in production to ensure seamless communication on any domain (like Railway)
 const API_BASE = import.meta.env.VITE_API_URL || (import.meta.env.PROD ? '' : 'http://localhost:3001');
-const MAX_MESSAGES = 25; // Trigger evaluation at this count
+
 
 // Parse the structured evaluation from AI response
 function parseEvaluation(text) {
@@ -57,9 +57,7 @@ export default function Chat({ studentName }) {
   const greetingTriggered             = useRef(false);
   const feedbackIdRef                 = useRef(0);
 
-  // User message count (only count user turns for the trigger)
-  const userMessageCount = messages.filter(m => m.role === 'user').length;
-  const progressPct = Math.min((userMessageCount / MAX_MESSAGES) * 100, 100);
+
 
   useEffect(() => {
     messagesEndRef.current?.scrollIntoView({ behavior: 'smooth' });
@@ -107,7 +105,7 @@ export default function Chat({ studentName }) {
       if (!res.ok) throw new Error(`Server error ${res.status}`);
       const data = await res.json();
 
-      if (data.concluded || userMessageCount >= MAX_MESSAGES) {
+      if (data.concluded) {
         const evalText = parseEvaluation(data.reply);
         const goodbyeText = parseGoodbyeText(data.reply);
 
@@ -149,15 +147,7 @@ export default function Chat({ studentName }) {
     setMessages(newHistory);
     setInput('');
 
-    const willTrigger = newHistory.filter(m => m.role === 'user').length >= MAX_MESSAGES;
-    const historyToSend = willTrigger
-      ? [...newHistory, {
-          role: 'system',
-          content: 'The conversation has reached the message limit. You MUST now provide the full structured evaluation, starting with ---NEGOTIATION_CONCLUDED---.'
-        }]
-      : newHistory;
-
-    await sendToAI(historyToSend.filter(m => m.role !== 'system' || m.content.includes('NEGOTIATION_CONCLUDED')));
+    await sendToAI(newHistory);
   }
 
   async function handleManualConclude() {
@@ -189,16 +179,6 @@ export default function Chat({ studentName }) {
         </div>
 
         <div className="chat-header-right">
-          {/* Progress */}
-          <div className="progress-pill" id="message-counter">
-            💬 {userMessageCount}/{MAX_MESSAGES} exchanges
-          </div>
-          <div className="progress-bar-track">
-            <div
-              className="progress-bar-fill"
-              style={{ width: `${progressPct}%`, background: progressPct > 80 ? '#c0392b' : 'var(--rose-gold)' }}
-            />
-          </div>
           <button className="btn-ghost" id="view-brief-header-btn" onClick={() => setBriefOpen(true)}>
             📋 Quick Reference
           </button>
