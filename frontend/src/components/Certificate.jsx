@@ -59,16 +59,11 @@ export default function Certificate({ studentName, evaluation, onClose }) {
   const sevenElements     = parseSevenElements(evaluation);
   const agreementSection  = parseSection(evaluation, 'Crisis Action Agreement');
   const analysisSection   = parseSection(evaluation, 'Negotiation Analysis');
-  const instructorSection = parseSection(evaluation, 'Instructor Analytics');
 
   const feeStructure  = parseField(agreementSection, 'Fee Structure');
   const strategy      = parseField(agreementSection, 'Strategy');
   const safeguards    = parseField(agreementSection, 'Safeguards & Control');
   const acceptability = parseField(agreementSection, 'Acceptability');
-  const zopaOutcome   = parseField(instructorSection, 'ZOPA Outcome');
-  const disclosurePattern = parseField(instructorSection, 'Disclosure Pattern');
-  const riskAssessment    = parseField(instructorSection, 'Risk Assessment');
-  const readiness         = parseField(instructorSection, 'Readiness for Next Exercise');
 
   async function handleDownload() {
     const pages = certRef.current.querySelectorAll('.cert-page');
