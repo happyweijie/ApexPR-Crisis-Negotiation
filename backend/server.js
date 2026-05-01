@@ -50,8 +50,8 @@ app.post('/api/chat', async (req, res) => {
   }
 });
 
-// Serve built React frontend in production
-if (process.env.NODE_ENV === 'production') {
+// Serve built React frontend in production (skip if on Vercel, as Vercel handles static routing natively)
+if (process.env.NODE_ENV === 'production' && !process.env.VERCEL) {
   const frontendPath = path.join(__dirname, '..', 'frontend', 'dist');
   app.use(express.static(frontendPath));
   app.get('*', (req, res) => {
@@ -60,7 +60,13 @@ if (process.env.NODE_ENV === 'production') {
 }
 
 const PORT = process.env.PORT || 3001;
-app.listen(PORT, () => {
-  console.log(`Aria Lim server running on port ${PORT}`);
-  console.log(`System prompt loaded: ${SYSTEM_PROMPT.length} chars`);
-});
+
+// Only listen if not running on Vercel
+if (process.env.NODE_ENV !== 'production' && !process.env.VERCEL) {
+  app.listen(PORT, () => {
+    console.log(`Aria Lim server running on port ${PORT}`);
+    console.log(`System prompt loaded: ${SYSTEM_PROMPT.length} chars`);
+  });
+}
+
+module.exports = app;
