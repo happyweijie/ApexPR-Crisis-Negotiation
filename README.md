@@ -4,7 +4,7 @@
 
 Users play the role of a Senior Account Director at **Apex PR** to negotiate representation terms with **Aria Lim**, a high-profile influencer facing a potentially career-ending controversy.
 
-Try **Apex** here: https://apex-pr-negotiation.onrender.com/
+Try **Apex** here: https://apexpr-crisis-negotiation-production.up.railway.app/
 
 ---
 
